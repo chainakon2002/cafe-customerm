@@ -15,10 +15,22 @@ export interface Category {
   icon?: string;
 }
 
+export interface OrderItem {
+  menuId: string;
+  name: string;
+  price: number;
+  quantity: number;
+  options: {
+    type: 'hot' | 'iced' | 'frappe' | 'none';
+    sweetness: number;
+    toppings: string[];
+  };
+}
+
 export interface OrderStatus {
   id: string;
   status: 'received' | 'preparing' | 'served' | 'cancelled';
-  items: string[]; // item IDs
+  items: OrderItem[];
   totalAmount: number;
   tableId: string;
   sessionId?: string;

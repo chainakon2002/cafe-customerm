@@ -20,7 +20,7 @@ export const CartPage = () => {
         price: item.price,
         quantity: item.quantity,
         options: item.options
-      })) as any,
+      })),
       totalAmount: total,
       tableId: currentSession.tableNumber,
       sessionId: sessionId
