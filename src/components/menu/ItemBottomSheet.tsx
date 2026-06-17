@@ -25,6 +25,8 @@ export const ItemBottomSheet = ({ item, isOpen, onClose }: ItemBottomSheetProps)
     }
   }, [isOpen, item]);
 
+  const isBakery = item?.categoryId === 'c3';
+
   const handleAddToCart = () => {
     if (!item) return;
     const cartItem: CartItem = {
@@ -35,8 +37,8 @@ export const ItemBottomSheet = ({ item, isOpen, onClose }: ItemBottomSheetProps)
       quantity,
       image: item.image,
       options: {
-        type,
-        sweetness,
+        type: isBakery ? 'none' : type,
+        sweetness: isBakery ? 0 : sweetness,
         toppings: [],
       }
     };
@@ -83,45 +85,49 @@ export const ItemBottomSheet = ({ item, isOpen, onClose }: ItemBottomSheetProps)
                 <p className="text-text-muted text-sm leading-relaxed">{item.description}</p>
               </div>
 
-              <div>
-                <h3 className="text-xs font-bold text-text-muted uppercase tracking-wider mb-3">Serving Style</h3>
-                <div className="flex gap-2">
-                  {(['hot', 'iced', 'frappe'] as const).map((t) => (
-                    <motion.button
-                      whileTap={{ scale: 0.95 }}
-                      key={t}
-                      onClick={() => setType(t)}
-                      className={`flex-1 py-2.5 rounded-xl border capitalize font-semibold text-sm transition-colors ${
-                        type === t 
-                          ? 'border-transparent bg-beige-active text-primary' 
-                          : 'border-beige text-text-muted hover:border-secondary'
-                      }`}
-                    >
-                      {t}
-                    </motion.button>
-                  ))}
-                </div>
-              </div>
+              {!isBakery && (
+                <>
+                  <div>
+                    <h3 className="text-xs font-bold text-text-muted uppercase tracking-wider mb-3">Serving Style</h3>
+                    <div className="flex gap-2">
+                      {(['hot', 'iced', 'frappe'] as const).map((t) => (
+                        <motion.button
+                          whileTap={{ scale: 0.95 }}
+                          key={t}
+                          onClick={() => setType(t)}
+                          className={`flex-1 py-2.5 rounded-xl border capitalize font-semibold text-sm transition-colors ${
+                            type === t 
+                              ? 'border-transparent bg-beige-active text-primary' 
+                              : 'border-beige text-text-muted hover:border-secondary'
+                          }`}
+                        >
+                          {t}
+                        </motion.button>
+                      ))}
+                    </div>
+                  </div>
 
-              <div>
-                <h3 className="text-xs font-bold text-text-muted uppercase tracking-wider mb-3">Sweetness</h3>
-                <div className="flex gap-2">
-                  {[0, 25, 50, 100].map((level) => (
-                    <motion.button
-                      whileTap={{ scale: 0.95 }}
-                      key={level}
-                      onClick={() => setSweetness(level)}
-                      className={`flex-1 py-2.5 rounded-xl border text-sm font-semibold transition-colors ${
-                        sweetness === level
-                          ? 'border-transparent bg-primary text-cream'
-                          : 'border-beige bg-transparent text-text-main hover:bg-beige/50'
-                      }`}
-                    >
-                      {level}%
-                    </motion.button>
-                  ))}
-                </div>
-              </div>
+                  <div>
+                    <h3 className="text-xs font-bold text-text-muted uppercase tracking-wider mb-3">Sweetness</h3>
+                    <div className="flex gap-2">
+                      {[0, 25, 50, 100].map((level) => (
+                        <motion.button
+                          whileTap={{ scale: 0.95 }}
+                          key={level}
+                          onClick={() => setSweetness(level)}
+                          className={`flex-1 py-2.5 rounded-xl border text-sm font-semibold transition-colors ${
+                            sweetness === level
+                              ? 'border-transparent bg-primary text-cream'
+                              : 'border-beige bg-transparent text-text-main hover:bg-beige/50'
+                          }`}
+                        >
+                          {level}%
+                        </motion.button>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
             <motion.div 
